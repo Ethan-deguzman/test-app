@@ -42,7 +42,12 @@ export class LineChartComponent implements OnInit {
         ],
       },
       options: {
-        aspectRatio: 2.5,
+        aspectRatio: 2.5, 
+        scales: {
+          y: {
+            beginAtZero: true // Ensure the y-axis starts at zero
+          }
+        },
         plugins: {
           tooltip: {
             mode: 'index',
