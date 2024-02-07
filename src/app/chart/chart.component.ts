@@ -19,26 +19,18 @@ export class ChartComponent implements OnInit {
     this.chart = new Chart('MyChart', {
       type: 'bar',
       data: {
-        labels: [
-          '2022-05-10',
-          '2022-05-11',
-          '2022-05-12',
-          '2022-05-13',
-          '2022-05-14',
-          '2022-05-15',
-          '2022-05-16',
-          '2022-05-17',
-        ],
+        // values on X-Axis
+        labels: ['2009', '2010', '2011', '2012'],
         datasets: [
           {
-            label: 'Sales',
-            data: [467, 576, 572, 79, 92, 574, 573, 576],
-            backgroundColor: 'rgb(33, 28, 106)',
+            label: 'Series A',
+            data: ['5', '10', '35', '40'],
+            backgroundColor: 'rgb(89, 180, 195)',
           },
           {
-            label: 'Profit',
-            data: [542, 542, 536, 327, 17, 0, 538, 541],
-            backgroundColor: 'rgb(116, 226, 145)',
+            label: 'Series B',
+            data: ['15', '20', '25', '30', ],
+            backgroundColor: 'pink',
           },
         ],
       },
