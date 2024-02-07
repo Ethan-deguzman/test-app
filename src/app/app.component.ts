@@ -3,13 +3,15 @@ import { RouterOutlet } from '@angular/router';
 import { ChartComponent } from "./chart/chart.component";
 import { LineChartComponent } from './line-chart/line-chart.component';
 import { LineAreaChartComponent } from "./line-area-chart/line-area-chart.component";
+import { DonutChartComponent } from './donut-chart/donut-chart.component';
+
 
 @Component({
     selector: 'app-root',
     standalone: true,
     templateUrl: './app.component.html',
     styleUrl: './app.component.css',
-    imports: [RouterOutlet, ChartComponent, LineChartComponent, LineAreaChartComponent]
+    imports: [RouterOutlet, ChartComponent, LineChartComponent, LineAreaChartComponent, DonutChartComponent]
 })
 export class AppComponent {
   title = 'test-app';
