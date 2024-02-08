@@ -8,5 +8,5 @@ public class ChartDataset
 {
 	public string Label { get; set; }
 	public int[] Data { get; set; }
-	public string BackgroundColor { get; set; }
+	
 }

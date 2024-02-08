@@ -1,12 +1,11 @@
 {
   "ExpandedNodes": [
     "",
+    "\\bin",
     "\\Controllers",
     "\\Models",
-    "\\obj\\Debug",
-    "\\obj\\Release",
     "\\Properties"
   ],
-  "SelectedNode": "\\Controllers\\ChartDataController.cs",
+  "SelectedNode": "\\Models\\ChartDataModel.cs",
   "PreviewInSolutionExplorer": false
 }

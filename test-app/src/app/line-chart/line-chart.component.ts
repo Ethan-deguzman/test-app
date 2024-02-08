@@ -20,7 +20,7 @@ export class LineChartComponent implements OnInit {
   }
 
   fetchChartData() {
-    this.http.get<any>('http://localhost:5067/api/chart').subscribe(
+    this.http.get<any>('http://localhost:5000/api/chart').subscribe(
       (data) => {
         this.chartData = data;
         this.createChart();
@@ -39,7 +39,6 @@ export class LineChartComponent implements OnInit {
         datasets: this.chartData.datasets.map((dataset: any) => ({
           label: dataset.label,
           data: dataset.data.map((value: any) => parseFloat(value)), // Ensure data is in number format
-          backgroundColor: dataset.backgroundColor,
           tension: 0.3,
           borderCapStyle: 'round',
           borderJoinStyle: 'round',

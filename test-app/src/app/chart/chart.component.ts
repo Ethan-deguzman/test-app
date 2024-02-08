@@ -1,38 +1,46 @@
 import { Component, OnInit } from '@angular/core';
 import Chart from 'chart.js/auto'; // corrected import
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-chart',
   standalone: true,
-  imports: [],
+  imports: [HttpClientModule],
   templateUrl: './chart.component.html',
   styleUrls: ['./chart.component.css'], // corrected property name
 })
 export class ChartComponent implements OnInit {
   public chart: any;
+  public chartData: any;
+
+  constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
-    this.createChart();
+    this.fetchChartData();
+  }
+
+  fetchChartData() {
+    this.http.get<any>('http://localhost:5000/api/chart').subscribe(
+      (data) => {
+        this.chartData = data;
+        this.createChart();
+      },
+      (error) => {
+        console.error('Error fetching chart data:', error);
+      }
+    );
   }
 
   createChart() {
     this.chart = new Chart('MyChart', {
       type: 'bar',
       data: {
-        // values on X-Axis
-        labels: ['2009', '2010', '2011', '2012'],
-        datasets: [
-          {
-            label: 'Series A',
-            data: ['5', '10', '35', '40'],
-            backgroundColor: 'rgb(89, 180, 195)',
-          },
-          {
-            label: 'Series B',
-            data: ['15', '20', '25', '30', ],
-            backgroundColor: 'pink',
-          },
-        ],
+        labels: this.chartData.labels,
+        datasets: this.chartData.datasets.map((dataset: any) => ({
+          label: dataset.label,
+          data: dataset.data.map((value: any) => parseFloat(value)), // Ensure data is in number format
+          
+        })),
       },
       options: {
         aspectRatio: 2.5,
