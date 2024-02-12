@@ -1,4 +1,22 @@
 <div class="chart-container">
-    <h2 class="open-sans">Line Area <span class="lower-open-sans">chart</span></h2>
-    <canvas  id="MyChart2" >{{ chart }}</canvas>
+    <h2 class="open-sans">Pie <span class="lower-open-sans">chart for the month of {{selectedMonth}} {{selectedYear}}</span></h2>
+    <div class="select-wrapper">
+        <select class="custom-select" (change)="onMonthChange($event)">
+            <option value="January">January</option>
+            <option value="February">February</option>
+            <option value="March">March</option>
+            <option value="April">April</option>
+            <option value="May">May</option>
+            <option value="June">June</option>
+            <option value="July">July</option>
+            <option value="August">August</option>
+            <option value="September">September</option>
+            <option value="October">October</option>
+            <option value="November">November</option>
+            <option value="December">December</option>
+            <!-- Add options for other months -->
+        </select>
+    </div>
+      
+    <canvas id="MyChart2">{{ chart }}</canvas>
 </div>

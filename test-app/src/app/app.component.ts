@@ -1,9 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { ChartComponent } from "./chart/chart.component";
-import { LineChartComponent } from './line-chart/line-chart.component';
-import { LineAreaChartComponent } from "./line-area-chart/line-area-chart.component";
-import { DonutChartComponent } from './donut-chart/donut-chart.component';
+import { ChartsSelectorComponent } from './charts-selector/charts-selector.component';
+
 
 
 @Component({
@@ -11,7 +9,7 @@ import { DonutChartComponent } from './donut-chart/donut-chart.component';
     standalone: true,
     templateUrl: './app.component.html',
     styleUrl: './app.component.css',
-    imports: [RouterOutlet, ChartComponent, LineChartComponent, LineAreaChartComponent, DonutChartComponent]
+    imports: [RouterOutlet, ChartsSelectorComponent]
 })
 export class AppComponent {
   title = 'test-app';

@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import Chart from 'chart.js/auto';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import DatalabelsPlugin  from 'chartjs-plugin-datalabels';
+Chart.register([DatalabelsPlugin]);
 
 @Component({
   selector: 'app-line-area-chart',
@@ -9,57 +11,100 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
   templateUrl: './line-area-chart.component.html',
   styleUrls: ['./line-area-chart.component.css'],
 })
-export class LineAreaChartComponent implements OnInit {
-  public chart: any;
-  public chartData: any;
+export class LineAreaChartComponent implements OnInit, OnChanges {
+    @Input() selectedYear!: string;
+    public chart: any;
+    public selectedMonth: string = 'January';
 
-  constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) {}
 
-  ngOnInit(): void {
-    this.fetchChartData();
-  }
+    ngOnInit(): void {
+        this.fetchChartData(this.selectedMonth); // Fetch data for the initial month
+    }
 
-  fetchChartData() {
-    this.http.get<any>('http://localhost:5000/api/chart').subscribe(
-      (data) => {
-        this.chartData = data;
-        this.createChart();
-      },
-      (error) => {
-        console.error('Error fetching chart data:', error);
-      }
-    );
-  }
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes['selectedYear']) {
+            this.fetchChartDataForYear(changes['selectedYear'].currentValue);
+        }
+    }
 
-  createChart() {
-    this.chart = new Chart('MyChart2', {
-      type: 'line',
-      data: {
-        labels: this.chartData.labels,
-        datasets: this.chartData.datasets.map((dataset: any, index: number) => ({
-          label: dataset.label,
-          data: dataset.data.map((value: any) => parseFloat(value)),
-          backgroundColor: index === 0 ? 'rgba(89, 180, 195, 0.5)' : 'rgba(255, 99, 132, 0.5)',
-          borderColor: index === 0 ? 'rgb(89, 180, 195)' : 'rgb(255, 99, 132)',
-          fill: true,
-          tension: 0.3,
-          borderCapStyle: 'round',
-          borderJoinStyle: 'round'
-        })),
-      },
-      options: {
-        aspectRatio: 2.5,
-        scales: {
-          y: {
-            beginAtZero: true
-          }
-        },
-        plugins: {
-          tooltip: {
-            mode: 'index',
-          },
-        },
-      },
-    });
-  }
+    fetchChartData(month: string) {
+        this.http.get<any>(`http://localhost:5067/api/chart/${this.selectedYear}/${month}`).subscribe(
+            (data) => {
+                this.createChart(data);
+            },
+            (error) => {
+                console.error('Error fetching chart data:', error);
+            }
+        );
+    }
+
+    fetchChartDataForYear(selectedYear: string) {
+        this.http.get<any>(`http://localhost:5067/api/chart/${selectedYear}/${this.selectedMonth}`).subscribe(
+            (data) => {
+                this.createChart(data);
+            },
+            (error) => {
+                console.error('Error fetching chart data:', error);
+            }
+        );
+    }
+    
+    createChart(data: any) {
+        if (this.chart) {
+            this.chart.destroy(); // Destroy the existing chart if it exists
+        }
+
+        this.chart = new Chart('MyChart2', {
+            type: 'pie',
+            data: {
+                labels: data.labels,
+                datasets: [
+                    {
+                        label: data.datasets[0].label,
+                        data: data.datasets[0].data,
+                        backgroundColor: [
+                            'rgba(66,133,244,0.9)',
+                            'rgba(219,68,55,0.9)',
+                        ],
+                        borderColor: ['rgb(66,133,244)', 'rgb(219,68,55)'],
+                        borderWidth: 1,
+                    },
+                ],
+            },
+            options: {
+                aspectRatio: 2.5,
+                plugins: {
+                    tooltip: {
+                        mode: 'index',
+                    },
+                    datalabels: {
+                        formatter: (value: number, context: any) => {
+                            const dataset = context.chart.data.datasets[context.datasetIndex];
+                            const total = dataset.data.reduce(
+                                (acc: number, data: number) => acc + data,
+                                0
+                            );
+                            const percentage = ((value / total) * 100).toFixed(2) + '%';
+                            return percentage;
+                        },
+                        color: 'white',
+                        font: {
+                            weight: 'bold',
+                        },
+                    },
+                },
+            },
+        });
+    }
+
+    onMonthChange(event: Event) {
+        const selectedMonth = (event.target as HTMLSelectElement).value;
+        this.selectedMonth = selectedMonth;
+        this.fetchChartData(this.selectedMonth); // Fetch and update data for the selected month
+
+        if (this.chart) {
+            this.chart.destroy(); // Destroy the existing chart if it exists
+        }
+    }
 }

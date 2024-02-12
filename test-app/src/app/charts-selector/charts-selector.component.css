@@ -1,4 +1,16 @@
-.open-sans {
+.charts-container {
+    padding: 30px;
+    display: flex;
+    justify-content: space-between; /* Adjust as needed */
+    gap: 20px;
+  }
+  
+  .chart-wrapper {
+    flex: 1;
+    margin-right: 100px; /* Adjust spacing between charts */
+  }
+  
+  .open-sans {
     font-family: "Open Sans", sans-serif;
     text-align: center;
     font-weight: 800;
@@ -20,7 +32,7 @@
   border-radius: 4px;
   background-color: #f8f8f8;
   cursor: pointer;
-  position: relative; /* Required for pseudo-elements */
+  position: relative;/* Required for pseudo-elements */
 }
 
 .custom-select:hover {
@@ -39,6 +51,7 @@
 
 .select-wrapper {
   margin-left: auto;
+  margin-bottom: 40px;
 }
 
 /* Hide the default arrow on Chrome and Safari */
