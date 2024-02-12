@@ -29,7 +29,7 @@ export class ChartComponent implements OnInit, OnChanges {
   }
 
   fetchChartData(selectedYear: string) {
-      this.http.get<any>(`http://localhost:5067/api/chart/annual/${selectedYear}`).subscribe(
+      this.http.get<any>(`http://localhost:5000/api/chart/${selectedYear}`).subscribe(
           (data) => {
               this.chartData = data;
               if (this.chart) {
