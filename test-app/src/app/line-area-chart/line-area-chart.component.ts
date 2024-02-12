@@ -40,7 +40,7 @@ export class LineAreaChartComponent implements OnInit, OnChanges {
     }
 
     fetchChartDataForYear(selectedYear: string) {
-        this.http.get<any>(`http://localhost:5067/api/chart/${selectedYear}/${this.selectedMonth}`).subscribe(
+        this.http.get<any>(`http://localhost:5000/api/chart/${selectedYear}/${this.selectedMonth}`).subscribe(
             (data) => {
                 this.createChart(data);
             },
