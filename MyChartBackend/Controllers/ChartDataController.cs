@@ -59,7 +59,7 @@ namespace MychartData // Update with your actual namespace
             return Ok(data);
         }
 
-        [HttpGet("annual/{year}")]
+        [HttpGet("{year}")]
         public ActionResult<ChartData> GetAnnualChartData(int year)
         {
             if (!totalEmployeesByYear.ContainsKey(year))

@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Ethan\\Documents\\experience_program\\MyChartBackend\\MyChartBackend.csproj": {}
+    "E:\\angular\\test-app\\test-app\\MyChartBackend\\MyChartBackend.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Ethan\\Documents\\experience_program\\MyChartBackend\\MyChartBackend.csproj": {
+    "E:\\angular\\test-app\\test-app\\MyChartBackend\\MyChartBackend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Ethan\\Documents\\experience_program\\MyChartBackend\\MyChartBackend.csproj",
+        "projectUniqueName": "E:\\angular\\test-app\\test-app\\MyChartBackend\\MyChartBackend.csproj",
         "projectName": "MyChartBackend",
-        "projectPath": "C:\\Users\\Ethan\\Documents\\experience_program\\MyChartBackend\\MyChartBackend.csproj",
-        "packagesPath": "C:\\Users\\Ethan\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Ethan\\Documents\\experience_program\\MyChartBackend\\obj\\",
+        "projectPath": "E:\\angular\\test-app\\test-app\\MyChartBackend\\MyChartBackend.csproj",
+        "packagesPath": "C:\\Users\\christian.deguzman\\.nuget\\packages\\",
+        "outputPath": "E:\\angular\\test-app\\test-app\\MyChartBackend\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Ethan\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\christian.deguzman\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -68,7 +68,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.402\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }

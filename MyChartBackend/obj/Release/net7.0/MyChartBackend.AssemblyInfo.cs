@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MyChartBackend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+aae75c6c0f7341285f6e15988ed4bbbcec2721e6")]
 [assembly: System.Reflection.AssemblyProductAttribute("MyChartBackend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MyChartBackend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
