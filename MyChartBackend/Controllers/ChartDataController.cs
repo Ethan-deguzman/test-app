@@ -95,5 +95,6 @@ namespace MychartData // Update with your actual namespace
 
             return Ok(data);
         }
+
     }
 }

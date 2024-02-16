@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { LineAreaChartComponent } from "../line-area-chart/line-area-chart.component";
 import { ChartComponent } from "../chart/chart.component";
+import { DonutChartComponent } from '../donut-chart/donut-chart.component';
 
 
 
@@ -9,20 +10,20 @@ import { ChartComponent } from "../chart/chart.component";
     standalone: true,
     templateUrl: './charts-selector.component.html',
     styleUrl: './charts-selector.component.css',
-    imports: [LineAreaChartComponent, ChartComponent]
+    imports: [LineAreaChartComponent, ChartComponent, DonutChartComponent]
 })
 export class ChartsSelectorComponent {
-  @ViewChild(ChartComponent) chartComponent!: ChartComponent; // ViewChild to access ChartComponent methods
+//   @ViewChild(ChartComponent) chartComponent!: ChartComponent; // ViewChild to access ChartComponent methods
 
-  public selectedYear: string = '2023'; // Default selected year
+//   public selectedYear: string = '2023'; // Default selected year
 
-  onYearChange(event: Event) {
-      const selectedYear = (event.target as HTMLSelectElement).value;
-      this.selectedYear = selectedYear;
-      console.log('Selected year:', this.selectedYear);
+//   onYearChange(event: Event) {
+//       const selectedYear = (event.target as HTMLSelectElement).value;
+//       this.selectedYear = selectedYear;
+//       console.log('Selected year:', this.selectedYear);
       
-      if (this.chartComponent) {
-          this.chartComponent.destroyChart(); // Call destroyChart method in ChartComponent
-      }
-  }
+//       if (this.chartComponent) {
+//           this.chartComponent.destroyChart(); // Call destroyChart method in ChartComponent
+//       }
+//   }
 }

@@ -1,4 +1,12 @@
 <div class="chart-container">
-    <h2 class="open-sans">Bar <span class="lower-open-sans">chart for year {{selectedYear}}</span></h2>
-    <canvas  id="MyChart" >{{ chart }}</canvas>
+    <h2 class="open-sans">Bar <span class="lower-open-sans">chart</span></h2>
+    <div class="select-wrapper">
+        <select class="custom-select" (change)="onYearChange($event)">
+            <option value="2023">2023</option>
+            <option value="2024">2024</option>
+            <!-- Add options for other months -->
+        </select>
+    </div>
+    <canvas id="MyChart"></canvas>
 </div>
+    

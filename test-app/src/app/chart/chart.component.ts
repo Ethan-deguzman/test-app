@@ -1,7 +1,6 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import Chart from 'chart.js/auto';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-
 
 @Component({
   selector: 'app-chart',
@@ -10,108 +9,89 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
   templateUrl: './chart.component.html',
   styleUrls: ['./chart.component.css'],
 })
-export class ChartComponent implements OnInit, OnChanges {
-  @Input() selectedYear!: string;
+export class ChartComponent implements OnInit {
   public chart: any;
-  public chartData: any;
+  
 
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
-      this.fetchChartData(this.selectedYear);
-      console.log(this.selectedYear, "in bar chart components");
+    this.fetchDataAndCreateChart('2023'); // Initial chart for January
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-      if (changes['selectedYear']) {
-          this.fetchChartData(changes['selectedYear'].currentValue);
-      }
+  onYearChange(event: any) {
+    const selectedYear = event.target?.value; // Using optional chaining to handle null
+    if (selectedYear) {
+      this.fetchDataAndCreateChart(selectedYear);
+    }
   }
 
-  fetchChartData(selectedYear: string) {
-      this.http.get<any>(`http://localhost:5000/api/chart/${selectedYear}`).subscribe(
-          (data) => {
-              this.chartData = data;
-              if (this.chart) {
-                  this.chart.destroy(); // Destroy existing chart before reinitializing
-              }
-              this.createChart();
-          },
-          (error) => {
-              console.error('Error fetching chart data:', error);
-          }
-      );
+
+  fetchDataAndCreateChart(selectedYear: string) {
+    const endpoint = selectedYear === '2023' ? 'barChartDataSetA' : 'barChartDataSetB';
+    this.http.get<any>(`http://localhost:5000/api/chart/${endpoint}`).subscribe(data => {
+      this.createChart(data);
+      console.log('data fetched:',data)
+    });
   }
   
 
-  createChart() {
-    console.log('Creating chart for year:', this.selectedYear);
+ 
+  createChart(chartData: any) {
+    if (this.chart) {
+      this.chart.destroy(); // Destroy previous chart instance if exists
+    }
+  
+    // Filter out the "Total Employees" dataset
+    const filteredDatasets = chartData.datasets.filter((dataset: any) => dataset.label !== "Total Employees");
+  
     this.chart = new Chart('MyChart', {
       type: 'bar',
       data: {
-        labels: this.chartData.labels,
-        datasets: [
-          {
-            label: 'Contractual Employees',
-            data: this.chartData.datasets[1].data,
-            backgroundColor: 'rgba(243,233,200,0.9)',
-            borderColor: 'rgba(243,233,200,255)',
-            borderWidth: 1,
-            barThickness: 44
-          },
-          {
-          label: 'Regular Employees',
-          data: this.chartData.datasets[0].data,
-          backgroundColor: 'rgba(11,83,148,0.9)',
-          borderColor: 'rgba(11,83,148,1)',
+        labels: chartData.labels,
+        datasets: filteredDatasets.map((dataset: any) => ({
+          label: dataset.label,
+          data: dataset.data,
+          backgroundColor: dataset.backgroundColor,
+          borderColor: dataset.backgroundColor.replace('0.5', '1'), // Adjusting alpha value for border
           borderWidth: 1,
           barThickness: 44 
-        }
-        ]
+        }))
       },
-      options: {
-        plugins: {
-          datalabels: {
-            // Default color for all labels
-            color: 'white',
-            textStrokeColor: 'black', // Color of the text stroke
-            textStrokeWidth: 2, // Width of the text stroke
-            formatter: (value, ctx) => {
-              if (ctx.datasetIndex === 0) { // Contractual employees dataset
-                const contractualEmployees: any = ctx.chart.data.datasets[0].data[ctx.dataIndex];
-                const totalEmployees = contractualEmployees + ctx.chart.data.datasets[1].data[ctx.dataIndex];
-                const ratio = (contractualEmployees / totalEmployees) * 100;
-                const formattedValue = `${ratio.toFixed(2)}%`;
-            
-                // Set color to white when the value is 100%
-                const color = ratio === 100 ? 'white' : 'gray';
-            
-                return formattedValue;
-              } else { // Regular employees dataset
-                return '100';
-              }
-            },
-            
-          },
-        
+      // Inside the options object of createChart method
+options: {
+  aspectRatio: 1.5,
+  plugins: {
+    tooltip: {
+      mode: 'index',
+    },
+    datalabels: {
+      formatter: (value: number, context: any) => {
+        const totalEmployees = chartData.datasets[0].data[context.dataIndex]; // Total Employees
+        const contractors = value; // Contractors
+        const percentage = ((contractors / totalEmployees) * 100).toFixed(2) + '%';
+
+        return percentage;
+      },
+      color: 'white',
+      font: {
+        weight: 'bold',
+      },
+    },
+  },
+  scales: {
+    y: {
+      stacked: true
+    },
+    x: {
+      stacked: true
+    }
+  }
+},
+
       
-        },
-        scales: {
-          y: {
-            stacked: true
-            
-          },
-          x: {
-            stacked: true
-          
-          }
-        }
-      }
     });
   }
-  destroyChart() {
-    if (this.chart) {
-        this.chart.destroy(); // Destroy the existing chart if it exists
-    }
-}
+  
+  
 }

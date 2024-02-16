@@ -56,7 +56,7 @@ export class LineAreaChartComponent implements OnInit, OnChanges {
         }
 
         this.chart = new Chart('MyChart2', {
-            type: 'pie',
+            type: 'doughnut',
             data: {
                 labels: data.labels,
                 datasets: [
@@ -73,7 +73,7 @@ export class LineAreaChartComponent implements OnInit, OnChanges {
                 ],
             },
             options: {
-                aspectRatio: 2.5,
+                aspectRatio: 2,
                 plugins: {
                     tooltip: {
                         mode: 'index',

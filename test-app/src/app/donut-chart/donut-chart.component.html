@@ -1,4 +1,12 @@
 <div class="chart-container">
     <h2 class="open-sans">Donut <span class="lower-open-sans">chart</span></h2>
-    <canvas  id="MyChart3" >{{ chart }}</canvas>
+    <div class="select-wrapper">
+        <select class="custom-select" (change)="onMonthChange($event)">
+            <option value="January">January</option>
+            <option value="Others">Others</option>
+            <!-- Add options for other months -->
+        </select>
+    </div>
+    <canvas id="MyChart3"></canvas>
 </div>
+    
