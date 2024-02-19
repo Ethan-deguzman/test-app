@@ -53,7 +53,6 @@ namespace WorkforceAPI.Controllers
             {
                 throw new Exception("Data not found for the specified dataset and year.");
             }
-            Console.WriteLine(string.Join(", ", data));
             // Find the indices of relevant columns
             var totalEmployeesIndex = Array.IndexOf(data, $"{year} Total Employees");
             var regularEmployeesIndex = Array.IndexOf(data, $"{year} Regular Employees");

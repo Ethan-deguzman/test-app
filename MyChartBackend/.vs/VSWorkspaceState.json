@@ -3,9 +3,10 @@
     "",
     "\\bin",
     "\\Controllers",
+    "\\data",
     "\\Models",
     "\\Properties"
   ],
-  "SelectedNode": "\\Controllers\\BarChartController.cs",
+  "SelectedNode": "\\data\\piecharttable.csv",
   "PreviewInSolutionExplorer": false
 }

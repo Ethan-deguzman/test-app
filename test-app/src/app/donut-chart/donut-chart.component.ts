@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import Chart from 'chart.js/auto';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import DatalabelsPlugin  from 'chartjs-plugin-datalabels';
+Chart.register([DatalabelsPlugin]);
 
 @Component({
   selector: 'app-donut-chart', 

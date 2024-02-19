@@ -73,7 +73,7 @@ options: {
 
         return percentage;
       },
-      color: 'white',
+      color: '#BFBFBF',
       font: {
         weight: 'bold',
       },

@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { LineAreaChartComponent } from "../line-area-chart/line-area-chart.component";
+
 import { ChartComponent } from "../chart/chart.component";
 import { DonutChartComponent } from '../donut-chart/donut-chart.component';
 
@@ -10,7 +10,7 @@ import { DonutChartComponent } from '../donut-chart/donut-chart.component';
     standalone: true,
     templateUrl: './charts-selector.component.html',
     styleUrl: './charts-selector.component.css',
-    imports: [LineAreaChartComponent, ChartComponent, DonutChartComponent]
+    imports: [ ChartComponent, DonutChartComponent]
 })
 export class ChartsSelectorComponent {
 //   @ViewChild(ChartComponent) chartComponent!: ChartComponent; // ViewChild to access ChartComponent methods
