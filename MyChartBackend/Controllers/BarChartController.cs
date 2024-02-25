@@ -1,8 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Collections.Generic;
+using System.Globalization;
 
 namespace WorkforceAPI.Controllers
 {
@@ -10,15 +11,15 @@ namespace WorkforceAPI.Controllers
     [ApiController]
     public class BarChartController : ControllerBase
     {
-        private string csvFilePath = @"./data/barcharttable.csv";
+        private string csvFilePath = @"./data/MonthlyData.csv";
 
-        [HttpGet("barChartDataSetA")]
-        public IActionResult GetBarChartDataA()
+        [HttpGet("barChartData")]
+        public IActionResult GetBarChartData(string year)
         {
             try
             {
-                var barChartDataA = GetBarChartData("Data set A", 2024);
-                return Ok(barChartDataA);
+                var barChartData = GetBarChartDataForYear(year);
+                return Ok(barChartData);
             }
             catch (Exception ex)
             {
@@ -26,66 +27,47 @@ namespace WorkforceAPI.Controllers
             }
         }
 
-        [HttpGet("barChartDataSetB")]
-        public IActionResult GetBarChartDataB()
+        private object GetBarChartDataForYear(string year)
         {
-            try
+            var lines = System.IO.File.ReadAllLines(csvFilePath).Skip(1); // Skip header
+            var data = new List<object>();
+
+            var monthNames = CultureInfo.CurrentCulture.DateTimeFormat.AbbreviatedMonthNames.Take(12).ToList();
+            var monthIndices = Enumerable.Range(1, 12).ToDictionary(i => monthNames[i - 1]);
+
+            foreach (var monthName in monthNames)
             {
-                var barChartDataB = GetBarChartData("Data set B", 2023);
-                return Ok(barChartDataB);
+                var monthData = lines
+                    .Where(line => line.Split(',')[0].Trim() == year && line.Split(',')[1].Trim().StartsWith(monthName)) // Filter by year and month
+                    .Select(line =>
+                    {
+                        var parts = line.Split(',');
+                        if (!int.TryParse(parts[3], out int regularEmployees) || !int.TryParse(parts[4], out int contractors))
+                        {
+                            throw new Exception("Invalid data format for regular or contractor employees.");
+                        }
+                        int totalEmployees = regularEmployees + contractors;
+
+                        if (totalEmployees != int.Parse(parts[2]))
+                        {
+                            throw new Exception("Total number of employees does not match the sum of regular and contractors.");
+                        }
+
+                        return new[] { regularEmployees, contractors }; // Regular and Contractual Employees data
+                    })
+                    .FirstOrDefault();
+
+                if (monthData != null)
+                {
+                    data.Add(new { month = monthName, data = monthData }); // Add data for the month
+                }
+                else
+                {
+                    data.Add(new { month = monthName, data = new[] { 0, 0 } }); // Add [0, 0] if no data found for the month
+                }
             }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+
+            return data;
         }
-
-        private object GetBarChartData(string dataSet, int year)
-        {
-            var lines = System.IO.File.ReadAllLines(csvFilePath);
-            var data = lines
-                .Skip(1) // Skip the header line
-                .Where(line => line.StartsWith(dataSet) && line.Contains($"{year} Total Employees")) // Filter by dataset name and year
-                .Select(line => line.Split(',')) // Split each line by comma to create an array of values representing each column
-                .FirstOrDefault();
-
-            if (data == null)
-            {
-                throw new Exception("Data not found for the specified dataset and year.");
-            }
-            // Find the indices of relevant columns
-            var totalEmployeesIndex = Array.IndexOf(data, $"{year} Total Employees");
-            var regularEmployeesIndex = Array.IndexOf(data, $"{year} Regular Employees");
-            var contractorsIndex = Array.IndexOf(data, $"{year} Contractors");
-
-            return new
-            {
-                labels = new List<string> { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" },
-                datasets = new List<object>
-        {
-            new
-            {
-                label = "Total Employees",
-                data = data.Skip(totalEmployeesIndex + 2).Take(12).Select(int.Parse).ToList(),
-                backgroundColor = "#4285f4"
-            },
-           
-            new
-            {
-                label = "Contractors",
-                data = data.Skip(contractorsIndex + 2).Take(12).Select(int.Parse).ToList(),
-                backgroundColor = "rgba(243,233,200,0.9)"
-            },
-             new
-            {
-                label = "Regular Employees",
-                data = data.Skip(regularEmployeesIndex + 2).Take(12).Select(int.Parse).ToList(),
-                backgroundColor = "rgba(11,83,148,0.9)"
-            }
-        }
-            };
-        }
-
-
     }
 }

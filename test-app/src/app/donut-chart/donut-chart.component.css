@@ -20,7 +20,9 @@ border: 1px solid #ccc;
 border-radius: 4px;
 background-color: #f8f8f8;
 cursor: pointer;
-position: relative; /* Required for pseudo-elements */
+position: relative;
+margin-right: 5px;
+/* Required for pseudo-elements */
 }
 
 .custom-select:hover {
@@ -39,6 +41,10 @@ background-color: #eaeaea;
 
 .select-wrapper {
 margin-left: auto;
+margin-bottom: 80px;
+justify-content: center;
+align-items: center;
+display: flex;
 }
 
 /* Hide the default arrow on Chrome and Safari */

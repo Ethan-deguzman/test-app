@@ -1,12 +1,12 @@
 var builder = WebApplication.CreateBuilder(args);
 
+// Add logging services
+builder.Logging.AddConsole();
+
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-
-
 
 // Add CORS
 builder.Services.AddCors(options =>

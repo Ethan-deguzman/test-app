@@ -1,14 +1,21 @@
 .charts-container {
-    padding: 30px;
-    display: flex;
-    justify-content: space-between; /* Adjust as needed */
-    gap: 20px;
-  }
-  
-  .chart-wrapper {
-    flex: 1;
-    margin-right: 100px; /* Adjust spacing between charts */
-  }
+  padding: 30px;
+  display: flex;
+  justify-content: space-between; /* Adjust as needed */
+  gap: 20px;
+}
+
+.chart-wrapper {
+  flex: 3; /* This will make the left wrapper take up more space */
+  /* You can adjust other styles as needed */
+}
+
+/* Optionally, you can adjust the spacing between charts */
+.chart-wrapper:not(:last-child) {
+  margin-right: 10px; /* Adjust spacing between charts */
+}
+
+
   
   .open-sans {
     font-family: "Open Sans", sans-serif;
